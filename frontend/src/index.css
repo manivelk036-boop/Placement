@@ -1,0 +1,187 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    @apply bg-slate-950 text-slate-100 antialiased;
+    font-family: 'Inter', sans-serif;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-slate-900;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-slate-600 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-slate-500;
+  }
+}
+
+@layer components {
+
+  /* ── Buttons ── */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-violet-900/40 transition-all duration-200 hover:from-violet-500 hover:to-indigo-500 hover:shadow-violet-800/50 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 focus:ring-offset-slate-950 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-slate-700 bg-slate-800/60 px-5 py-2.5 text-sm font-semibold text-slate-200 shadow-sm backdrop-blur transition-all duration-200 hover:bg-slate-700/60 hover:border-slate-600 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 focus:ring-offset-slate-950;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2 text-sm font-medium text-slate-400 transition-all duration-200 hover:bg-slate-800 hover:text-slate-200;
+  }
+
+  /* ── Cards ── */
+  .card {
+    @apply rounded-2xl border border-slate-800/60 bg-slate-900/60 p-6 backdrop-blur-sm shadow-xl shadow-black/20;
+  }
+
+  .card-hover {
+    @apply card transition-all duration-300 hover:border-slate-700/80 hover:bg-slate-900/80 hover:shadow-2xl hover:shadow-black/30 hover:-translate-y-1;
+  }
+
+  .card-glow {
+    @apply card border-violet-800/30 shadow-violet-900/20;
+  }
+
+  /* ── Inputs ── */
+  .input-field {
+    @apply w-full rounded-xl border border-slate-700 bg-slate-800/60 px-4 py-3 text-sm text-slate-100 placeholder-slate-500 shadow-inner backdrop-blur transition-all duration-200 focus:border-violet-500 focus:outline-none focus:ring-2 focus:ring-violet-500/20;
+  }
+
+  .label {
+    @apply mb-1.5 block text-sm font-medium text-slate-300;
+  }
+
+  /* ── Badges ── */
+  .badge {
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold;
+  }
+
+  .badge-violet {
+    @apply badge bg-violet-900/60 text-violet-300 border border-violet-700/50;
+  }
+
+  .badge-emerald {
+    @apply badge bg-emerald-900/60 text-emerald-300 border border-emerald-700/50;
+  }
+
+  .badge-amber {
+    @apply badge bg-amber-900/60 text-amber-300 border border-amber-700/50;
+  }
+
+  .badge-rose {
+    @apply badge bg-rose-900/60 text-rose-300 border border-rose-700/50;
+  }
+
+  .badge-sky {
+    @apply badge bg-sky-900/60 text-sky-300 border border-sky-700/50;
+  }
+
+  /* ── Progress bar ── */
+  .progress-bar {
+    @apply h-2 w-full overflow-hidden rounded-full bg-slate-800;
+  }
+
+  .progress-fill {
+    @apply h-full rounded-full bg-gradient-to-r from-violet-600 to-indigo-500 transition-all duration-700;
+  }
+
+  /* ── Glassmorphism panel ── */
+  .glass {
+    @apply rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md shadow-2xl shadow-black/30;
+  }
+
+  /* ── Stat number ── */
+  .stat-value {
+    @apply text-3xl font-extrabold text-white tracking-tight;
+  }
+
+  .stat-label {
+    @apply text-xs font-medium text-slate-400 uppercase tracking-wide;
+  }
+
+  /* ── Section heading ── */
+  .section-title {
+    @apply text-lg font-bold text-slate-100;
+  }
+
+  .section-sub {
+    @apply text-sm text-slate-400;
+  }
+
+  /* ── Nav active / inactive ── */
+  .nav-active {
+    @apply flex items-center gap-3 rounded-xl bg-violet-600/20 px-3 py-2.5 text-sm font-semibold text-violet-300 border border-violet-700/30;
+  }
+
+  .nav-inactive {
+    @apply flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-400 transition-all duration-200 hover:bg-slate-800/60 hover:text-slate-200;
+  }
+
+  /* ── Animations ── */
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+
+    100% {
+      background-position: 200% 0;
+    }
+  }
+
+  .skeleton {
+    background: linear-gradient(90deg, #1e293b 25%, #334155 50%, #1e293b 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    @apply rounded-lg;
+  }
+
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-up {
+    animation: fadeUp 0.4s ease-out forwards;
+  }
+
+  @keyframes pulse-glow {
+
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.4);
+    }
+
+    50% {
+      box-shadow: 0 0 20px 6px rgba(139, 92, 246, 0.15);
+    }
+  }
+
+  .animate-pulse-glow {
+    animation: pulse-glow 2.5s ease-in-out infinite;
+  }
+}
