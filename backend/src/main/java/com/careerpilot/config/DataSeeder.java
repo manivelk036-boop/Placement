@@ -17,8 +17,12 @@ public class DataSeeder implements CommandLineRunner {
         @Override
         public void run(String... args) throws Exception {
 
-                // Prevent duplicate data
-                if (companyRepository.count() > 0) {
+                try {
+                        if (companyRepository.count() > 0) {
+                                return;
+                        }
+                } catch (Exception e) {
+                        System.out.println("Skipping Company seeding: " + e.getMessage());
                         return;
                 }
 

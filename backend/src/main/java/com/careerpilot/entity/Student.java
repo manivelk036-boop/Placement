@@ -34,13 +34,15 @@ public class Student implements UserDetails {
 
     private String department;
     private String college;
-    @Column(name = "study_year")
+    @Column(name = "academic_year")
     private Integer year;
     private Double cgpa;
 
-    @ElementCollection
-    @CollectionTable(name = "student_skills", joinColumns = @JoinColumn(name = "student_id"))
-    @Column(name = "skill")
+    @Column(name = "role")
+    @Builder.Default
+    private String role = "ROLE_USER";
+
+    @Transient
     private List<String> skills;
 
     @Enumerated(EnumType.STRING)
@@ -55,21 +57,24 @@ public class Student implements UserDetails {
     @Builder.Default
     private int streak = 0;
 
+    @Transient
     private LocalDateTime lastActiveDate;
 
-    @Enumerated(EnumType.STRING)
+    @Transient
     @Builder.Default
     private StudentLevel level = StudentLevel.CAREER_EXPLORER;
 
     @Builder.Default
     private int placementScore = 0;
 
+    @Transient
     @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_STUDENT"));
+        String userRole = (role != null && !role.isBlank()) ? role : "ROLE_USER";
+        return List.of(new SimpleGrantedAuthority(userRole));
     }
 
     @Override

@@ -25,6 +25,7 @@ public class StudentResponse {
     private int streak;
     private StudentLevel level;
     private int placementScore;
+    private String role;
 
     public static StudentResponse from(Student student) {
         return StudentResponse.builder()
@@ -42,6 +43,7 @@ public class StudentResponse {
                 .streak(student.getStreak())
                 .level(student.getLevel())
                 .placementScore(student.getPlacementScore())
+                .role(student.getRole())
                 .build();
     }
 }
