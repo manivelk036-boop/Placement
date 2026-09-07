@@ -44,13 +44,20 @@ public class StudentController {
         return ResponseEntity.ok(ApiResponse.ok(dashboard));
     }
 
-    @PostMapping("/me/career-goal")
+    @RequestMapping(value = "/me/career-goal", method = {RequestMethod.GET, RequestMethod.POST})
     public ResponseEntity<ApiResponse<RoadmapResponse>> setCareerGoal(
             @AuthenticationPrincipal Student student,
-            @RequestParam String goal) {
-        CareerGoal careerGoal = CareerGoal.valueOf(goal.toUpperCase());
-        RoadmapResponse roadmap = roadmapService.generateRoadmap(student.getId(), careerGoal);
-        return ResponseEntity.ok(ApiResponse.ok("Career goal set and roadmap generated", roadmap));
+            @RequestParam(required = false) String goal) {
+        if (goal != null && !goal.isBlank()) {
+            CareerGoal careerGoal = CareerGoal.valueOf(goal.toUpperCase());
+            RoadmapResponse roadmap = roadmapService.generateRoadmap(student.getId(), careerGoal);
+            return ResponseEntity.ok(ApiResponse.ok("Career goal set and roadmap generated", roadmap));
+        } else if (student.getCareerGoal() != null) {
+            RoadmapResponse roadmap = roadmapService.getRoadmap(student.getId());
+            return ResponseEntity.ok(ApiResponse.ok(roadmap));
+        } else {
+            return ResponseEntity.ok(ApiResponse.ok("No career goal set", null));
+        }
     }
 
     @GetMapping("/me/roadmap")

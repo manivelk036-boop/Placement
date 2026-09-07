@@ -49,14 +49,30 @@ public class StudentService {
 
     public DashboardResponse getDashboard(Long studentId) {
         Student student = getStudent(studentId);
-        long topicsCompleted = topicProgressRepository.countByStudentAndCompletedTrue(student);
-        long totalTopics = student.getCareerGoal() != null
-                ? topicRepository.findByCareerGoalOrderByMonthNumberAscOrderIndexAsc(student.getCareerGoal()).size()
-                : 0;
+        long topicsCompleted = 0;
+        try {
+            topicsCompleted = topicProgressRepository.countByStudentAndCompletedTrue(student);
+        } catch (Exception e) {
+            // Default to 0
+        }
 
-        int roadmapProgress = roadmapRepository.findByStudent(student)
-                .map(Roadmap::getProgressPercent)
-                .orElse(0);
+        long totalTopics = 0;
+        if (student.getCareerGoal() != null) {
+            try {
+                totalTopics = topicRepository.findByCareerGoalOrderByMonthNumberAscOrderIndexAsc(student.getCareerGoal()).size();
+            } catch (Exception e) {
+                // Default to 0
+            }
+        }
+
+        int roadmapProgress = 0;
+        try {
+            roadmapProgress = roadmapRepository.findByStudent(student)
+                    .map(Roadmap::getProgressPercent)
+                    .orElse(0);
+        } catch (Exception e) {
+            // Default to 0
+        }
 
         List<String> upcomingTasks = new ArrayList<>();
         if (student.getCareerGoal() == null) {
@@ -67,14 +83,19 @@ public class StudentService {
             upcomingTasks.add("Practice mock interview");
         }
 
-        List<AchievementDto> achievements = achievementRepository.findByStudent(student).stream()
-                .map(a -> AchievementDto.builder()
-                        .badgeName(a.getBadgeName())
-                        .description(a.getDescription())
-                        .icon(a.getIcon())
-                        .earnedAt(a.getEarnedAt())
-                        .build())
-                .collect(Collectors.toList());
+        List<AchievementDto> achievements = new ArrayList<>();
+        try {
+            achievements = achievementRepository.findByStudent(student).stream()
+                    .map(a -> AchievementDto.builder()
+                            .badgeName(a.getBadgeName())
+                            .description(a.getDescription())
+                            .icon(a.getIcon())
+                            .earnedAt(a.getEarnedAt())
+                            .build())
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            // Default to empty list
+        }
 
         return DashboardResponse.builder()
                 .student(StudentResponse.from(student))

@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard, Map, BookOpen, FileText, Mic,
   BarChart3, Building2, DollarSign, Trophy, User,
-  Settings, LogOut, Rocket, Menu, X, Zap, Coins,
+  Settings, LogOut, Rocket, Menu, X, Zap, Coins, Shield
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
@@ -121,6 +121,16 @@ export default function Layout({ children }) {
 
       {/* Nav */}
       <nav className="flex-1 overflow-y-auto p-4 space-y-5">
+        {student?.role === 'ROLE_ADMIN' && (
+          <div>
+            <p className="mb-1.5 px-3 text-[10px] font-semibold uppercase tracking-widest text-indigo-400">
+              Administration
+            </p>
+            <div className="space-y-0.5">
+              <NavItem to="/admin" icon={Shield} label="LMS Admin Panel" onClick={onClose} />
+            </div>
+          </div>
+        )}
         {navGroups.map((group) => (
           <div key={group.label}>
             <p className="mb-1.5 px-3 text-[10px] font-semibold uppercase tracking-widest text-slate-600">

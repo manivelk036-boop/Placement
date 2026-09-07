@@ -1,9 +1,12 @@
 package com.careerpilot.config;
 
 import com.careerpilot.entity.Company;
+import com.careerpilot.entity.Student;
 import com.careerpilot.repository.CompanyRepository;
+import com.careerpilot.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -13,9 +16,37 @@ import java.util.List;
 public class DataSeeder implements CommandLineRunner {
 
         private final CompanyRepository companyRepository;
+        private final StudentRepository studentRepository;
+        private final PasswordEncoder passwordEncoder;
 
         @Override
         public void run(String... args) throws Exception {
+                try {
+                        Student admin = studentRepository.findByEmail("admin@careerpilot.com").orElse(null);
+                        if (admin == null) {
+                                studentRepository.save(Student.builder()
+                                        .name("CareerPilot Admin")
+                                        .email("admin@careerpilot.com")
+                                        .password(passwordEncoder.encode("adminpassword"))
+                                        .role("ROLE_ADMIN")
+                                        .build());
+                        } else {
+                                boolean updated = false;
+                                if (!"ROLE_ADMIN".equals(admin.getRole())) {
+                                        admin.setRole("ROLE_ADMIN");
+                                        updated = true;
+                                }
+                                if (!passwordEncoder.matches("adminpassword", admin.getPassword())) {
+                                        admin.setPassword(passwordEncoder.encode("adminpassword"));
+                                        updated = true;
+                                }
+                                if (updated) {
+                                        studentRepository.save(admin);
+                                }
+                        }
+                } catch (Exception e) {
+                        System.out.println("Skipping admin check: " + e.getMessage());
+                }
 
                 try {
                         if (companyRepository.count() > 0) {

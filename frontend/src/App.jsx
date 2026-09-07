@@ -17,6 +17,7 @@ import SalaryPredictor from './pages/SalaryPredictor';
 import Leaderboard from './pages/Leaderboard';
 import Profile from './pages/Profile';
 import Settings from './pages/Settings';
+import AdminPanel from './pages/AdminPanel';
 
 function AppLayout({ children }) {
   return (
@@ -48,6 +49,7 @@ export default function App() {
           <Route path="/leaderboard" element={<AppLayout><Leaderboard /></AppLayout>} />
           <Route path="/profile" element={<AppLayout><Profile /></AppLayout>} />
           <Route path="/settings" element={<AppLayout><Settings /></AppLayout>} />
+          <Route path="/admin" element={<AppLayout><AdminPanel /></AppLayout>} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
